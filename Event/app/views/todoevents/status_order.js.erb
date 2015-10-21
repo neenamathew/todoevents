@@ -1,0 +1,1 @@
+$(".list_todoevents").empty().append("<%= escape_javascript(render(:partial => 'todoevent', locale: {todoevents: @todoevents}, layout: false ).html_safe) %>")

@@ -1,0 +1,112 @@
+<p id="notice"><%= notice %></p>
+<head>
+<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script type = "text/javascript" src = "js/ed.js">
+  </script>
+   </head>
+
+<h1>Listing Todoevents</h1>
+
+<table class="gridtable">
+  <thead>
+    <tr>
+      <th colspan="4">ToDos</th>
+    </tr>
+  </thead>
+
+  <tbody>
+ 
+ <tr>
+  <td colspan="4">
+<%= form_for(@todoevent) do |f| %>
+
+  <div class="field" id= "id_of_your_textbox">
+   
+    <%= f.text_field :name %>
+  </div>
+
+<% end %>
+</td> 
+      </tr>
+
+
+<% if @display_events["active"]!= nil%><tr><td>
+<% @display_events["active"].each do |todoevent| %>
+      <tr>
+
+ <td>
+     <%= form_for(todoevent) do |f| %> 
+   <div class="inner"> 
+  <%= f.object.name %>
+   <%= f.hidden_field :name  %>  </div>
+    <% end %>
+
+     </td> 
+             <td><%= link_to 'Destroy', todoevent_path(todoevent), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+    <% end %></td>
+</tr>
+<% end %>
+
+
+
+  </tbody>
+</table>
+
+
+
+<p id="notice"><%= notice %></p>
+<head>
+<script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script type = "text/javascript" src = "js/ed.js">
+  </script>
+   </head>
+
+<h1>Listing Todoevents</h1>
+<table class="gridtable">
+  <thead>
+    <tr>
+      <th colspan="4">ToDos</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td colspan="4">
+<%= form_tag("/todoevents/add", :method=>"post") do %>
+  <%= text_field_tag(:name) %>
+  <%= submit_tag("Add todo", :class=>"btn") %>
+<% end %>
+</td> 
+      </tr>
+  </tbody>
+</table>
+
+
+
+<ul style="list-style-type:none;">
+
+<% @todoevents.each do |t| %><br>
+   <% if t.status == "completed" %>
+   <td><tr>  <li style="color:grey;">
+
+<%= form_tag("/todoevents/unmark/", :method => "post") do %>
+ <%= check_box_tag  "todos_checkbox[]",t.id %>
+     <strike><%= t.name     %></strike> 
+ <%= link_to 'x', todoevent_path(t), method: :delete, data: { confirm: 'Are you sure?' } %>  
+<%= submit_tag("Unmark Todos", :class=>"btn btn-success") %>
+<% end %>
+
+</li>
+  <% else %>
+  
+     <li> 
+
+<%= form_tag("/todoevents/complete/", :method => "post") do %>
+<%= check_box_tag  "todos_checkbox[]",t.id %> <%= t.name   %><%= link_to 'x', todoevent_path(t), method: :delete, data: { confirm: 'Are you sure?' } %>  
+<%= submit_tag("Complete Todos", :class=>"btn btn-success") %>
+<% end %>
+  </li>
+  <% end %>
+
+<%end%>
+</ul>

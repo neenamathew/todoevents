@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+<div class ="field">
+<h1>Listing Todoevents</h1>
+<table class="gridtable">
+  <thead>
+    <tr>
+      <th colspan="4">ToDos</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr><td colspan="4">
+    <%= text_field_tag(:name ,nil, class: "todoevents_new") %>
+  </td></tr>
+  </tbody>
+</table>
+
+ <div class = "list_todoevents">
+  <% check_box_tag 'Select_all',  "99", false, :class => 'select_all'  %>
+    <% @todoevents.each do |todoevent|%>
+
+  <% if todoevent.status == "completed" %>
+  <div class = "remove_all">
+<p class="to-remove">
+     <div id="todoevent.id.to_s">
+
+     <%= check_box_tag 'Unmark',  todoevent.id, todoevent.status, :class => 'unmark'  %>
+     
+        
+         <div class="todoevents_edit" id = "<%=todoevent.id.to_s%>" value="<%=todoevent.id.to_s%>">
+         <strike> 
+         <%= todoevent.name %> 
+          </strike>
+            </div>
+          
+            <%= link_to 'Destroy',todoevent_path(todoevent),:method => :delete, :class => "delete",:id =>"delete"+todoevent.id.to_s, :value => todoevent.id, :remote => true %>
+       </div></p>
+   </div>
+    <% else %>
+
+    <div id="todoevent.id.to_s"><p class="to-remove">
+       <%= check_box_tag 'Complete',  todoevent.id,false, :class => 'complete'%>
+     
+          <div class="todoevents_edit" id = "<%=todoevent.id.to_s%>" value="<%=todoevent.id.to_s%>"> <%= todoevent.name   %>
+          </div>
+          <%= link_to 'Destroy',todoevent_path(todoevent),:method => :delete, :class => "delete",:id =>"delete"+todoevent.id.to_s, :value => todoevent.id, :remote => true %>
+            </p></div>
+
+       <% end %>
+
+    <% end %>
+
+  </div>
+
+</div>
+<% @count = @todoevents.where('status IN (?)',"active").count %>
+
+<div class ="count" id = "count_id" value= "<%=@count.to_s%>"><%= @count %> items left</div><br>
+&nbsp;
+&nbsp;
+<%= link_to "All", todoevents_status_order_path, :class => "filter", :value =>"all", :remote => true %>
+&nbsp;
+&nbsp;
+<%= link_to "Active", todoevents_status_order_path, :class => "filter", :value =>"active", :remote => true %>
+&nbsp;
+&nbsp;
+<%= link_to "Completed", todoevents_status_order_path, :class => "filter", :value =>"completed", :remote => true %>
+
+&nbsp;
+&nbsp;
+<%= link_to " Clear completed", todoevents_destroy_completed_path,:method => :delete, :remote => true %>

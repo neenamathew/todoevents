@@ -1,0 +1,40 @@
+
+
+<div class = "list_todoevents" id = "parentDiv">
+    <% @todoevents.each do |todoevent|%>
+
+  <% if todoevent.status == "completed" %>
+    <div class = "remove_all" id = "childDiv">
+<p class="to-remove">
+     <div id="todoevent.id.to_s">
+
+     <%= check_box_tag 'Unmark',  todoevent.id, todoevent.status, :class => 'unmark'  %>
+     
+    
+         <div class="todoevents_edit" id = "<%=todoevent.id.to_s%>" value="<%=todoevent.id.to_s%>">
+             <strike> 
+         <%= todoevent.name %> 
+         </strike>
+            </div>
+           
+            <%= link_to 'Destroy',todoevent_path(todoevent),:method => :delete, :class => "delete",:id =>"delete"+todoevent.id.to_s, :value => todoevent.id, :remote => true %>
+       </div></p>
+   </div>
+    <% else %>
+
+    <div id="todoevent.id.to_s"><p class="to-remove">
+       <%= check_box_tag 'Complete',  todoevent.id, false, :class => 'complete' %>
+     
+          <div class="todoevents_edit" id = "<%=todoevent.id.to_s%>" value="<%=todoevent.id.to_s%>"> <%= todoevent.name   %>
+          </div>
+          <%= link_to 'Destroy',todoevent_path(todoevent),:method => :delete, :class => "delete",:id =>"delete"+todoevent.id.to_s, :value => todoevent.id, :remote => true %>
+            </p></div>
+
+       <% end %>
+
+    <% end %>
+
+  </div>
+
+</div>
+

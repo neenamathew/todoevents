@@ -1,0 +1,1 @@
+$(".remove_all").remove().append("<%= escape_javascript(render(:partial => 'todoevent', locale: {todoevents: @todoevents})) %>");
